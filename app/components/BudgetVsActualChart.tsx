@@ -3,8 +3,13 @@ import { useEffect, useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 export default function BudgetVsActualChart() {
-  const [budgetData, setBudgetData] = useState([]);
-  const [actualData, setActualData] = useState([]);
+  interface BudgetActualData {
+    category: string;
+    budget: number;
+    actual: number;
+  }
+
+  const [budgetData, setBudgetData] = useState<BudgetActualData[]>([]);
 
   useEffect(() => {
     Promise.all([
@@ -12,15 +17,25 @@ export default function BudgetVsActualChart() {
       fetch('/api/transactions').then(res => res.json())
     ])
       .then(([budgets, transactions]) => {
-        const budgetMap = budgets.reduce((acc, budget) => {
+        interface Budget {
+          category: string;
+          limit: number;
+        }
+
+        interface Transaction {
+          category: string;
+          amount: number;
+        }
+
+        const budgetMap = budgets.reduce((acc: Record<string, number>, budget: Budget) => {
           acc[budget.category] = budget.limit;
           return acc;
         }, {});
 
-        const actualMap = transactions.reduce((acc, tx) => {
+        const actualMap = transactions.reduce((acc: Record<string, number>, tx: Transaction) => {
           acc[tx.category] = (acc[tx.category] || 0) + tx.amount;
           return acc;
-        }, {});
+        }, {} as Record<string, number>);
 
         const data = Object.keys(budgetMap).map(category => ({
           category,

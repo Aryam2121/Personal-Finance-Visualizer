@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 
 export default function SummaryCards() {
-  const [transactions, setTransactions] = useState([]);
+  const [transactions, setTransactions] = useState<{ amount: number; category: string; description: string }[]>([]);
 
   useEffect(() => {
     fetch('/api/transactions')
@@ -12,10 +12,10 @@ export default function SummaryCards() {
 
   const total = transactions.reduce((acc, tx) => acc + tx.amount, 0);
   const recent = transactions.slice(0, 3);
-  const categories = transactions.reduce((acc, tx) => {
+  const categories = transactions.reduce((acc: Record<string, number>, tx) => {
     acc[tx.category] = (acc[tx.category] || 0) + tx.amount;
     return acc;
-  }, {});
+  }, {} as Record<string, number>);
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">

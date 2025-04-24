@@ -2,7 +2,15 @@
 import { useEffect, useState } from 'react';
 
 export default function TransactionList() {
-  const [transactions, setTransactions] = useState([]);
+  interface Transaction {
+    _id: string;
+    description: string;
+    amount: number;
+    date: string;
+    category: string;
+  }
+
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
 
   useEffect(() => {
     fetch('/api/transactions')

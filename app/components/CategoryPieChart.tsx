@@ -5,13 +5,27 @@ import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 const COLORS = ['#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#a855f7', '#ec4899', '#14b8a6'];
 
 export default function CategoryPieChart() {
-  const [data, setData] = useState([]);
+  interface PieData {
+    name: string;
+    value: number;
+  }
+
+  const [data, setData] = useState<PieData[]>([]);
 
   useEffect(() => {
     fetch('/api/transactions')
       .then(res => res.json())
       .then(transactions => {
-        const grouped = transactions.reduce((acc, tx) => {
+        interface Transaction {
+          category: string;
+          amount: number;
+        }
+
+        interface GroupedTransactions {
+          [category: string]: number;
+        }
+
+        const grouped: GroupedTransactions = transactions.reduce((acc: GroupedTransactions, tx: Transaction) => {
           acc[tx.category] = (acc[tx.category] || 0) + tx.amount;
           return acc;
         }, {});

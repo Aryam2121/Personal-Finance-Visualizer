@@ -3,14 +3,18 @@ import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 
-export default function BudgetForm({ onSubmit }) {
+interface BudgetFormProps {
+  onSubmit: (data: { month: string; category: string; limit: number }) => void;
+}
+
+export default function BudgetForm({ onSubmit }: BudgetFormProps) {
   const [form, setForm] = useState({ month: '', category: '', limit: '' });
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmit({
       ...form,

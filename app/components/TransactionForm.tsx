@@ -4,14 +4,18 @@ import { Input } from '@components/ui/input';
 
 import { Button } from '@/components/ui/button';
 
-export default function TransactionForm({ onSubmit }) {
+interface TransactionFormProps {
+  onSubmit: (form: { amount: string; date: string; description: string; category: string }) => void;
+}
+
+export default function TransactionForm({ onSubmit }: TransactionFormProps) {
   const [form, setForm] = useState({ amount: '', date: '', description: '', category: '' });
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmit(form);
     setForm({ amount: '', date: '', description: '', category: '' });

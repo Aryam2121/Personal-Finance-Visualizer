@@ -3,13 +3,22 @@ import { useEffect, useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
 export default function MonthlyBarChart() {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<{ month: string; total: number }[]>([]);
 
   useEffect(() => {
     fetch('/api/transactions')
       .then(res => res.json())
       .then(transactions => {
-        const grouped = transactions.reduce((acc, tx) => {
+        interface Transaction {
+          date: string;
+          amount: number;
+        }
+
+        interface GroupedTransactions {
+          [month: string]: number;
+        }
+
+        const grouped: GroupedTransactions = transactions.reduce((acc: GroupedTransactions, tx: Transaction) => {
           const month = new Date(tx.date).toLocaleString('default', { month: 'short', year: 'numeric' });
           acc[month] = (acc[month] || 0) + tx.amount;
           return acc;

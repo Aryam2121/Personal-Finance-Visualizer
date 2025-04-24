@@ -1,7 +1,14 @@
 import { connectToDatabase } from '@/app/lib/db';
 import Budget from '@/app/models/Budget';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-export default async function handler(req, res) {
+interface BudgetRequestBody {
+  month: string;
+  category: string;
+  limit: number;
+}
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   await connectToDatabase();
 
   if (req.method === 'GET') {
@@ -10,7 +17,7 @@ export default async function handler(req, res) {
   }
 
   if (req.method === 'POST') {
-    const { month, category, limit } = req.body;
+    const { month, category, limit }: BudgetRequestBody = req.body;
     const newBudget = new Budget({ month, category, limit });
     await newBudget.save();
     return res.status(201).json(newBudget);

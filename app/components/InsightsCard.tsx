@@ -2,7 +2,14 @@
 import { useEffect, useState } from 'react';
 
 export default function InsightsCard() {
-  const [insights, setInsights] = useState([]);
+  interface Insight {
+    category: string;
+    status: string;
+    actual: number;
+    limit: number;
+  }
+
+  const [insights, setInsights] = useState<Insight[]>([]);
 
   useEffect(() => {
     fetch('/api/budgets')
@@ -11,9 +18,27 @@ export default function InsightsCard() {
         fetch('/api/transactions')
           .then(res => res.json())
           .then(transactions => {
-            const categories = budgets.reduce((acc, budget) => {
-              const actualSpending = transactions.filter(tx => tx.category === budget.category)
-                .reduce((sum, tx) => sum + tx.amount, 0);
+            interface Budget {
+              category: string;
+              limit: number;
+            }
+
+            interface Transaction {
+              category: string;
+              amount: number;
+            }
+
+            interface Insight {
+              category: string;
+              status: string;
+              actual: number;
+              limit: number;
+            }
+
+            const categories: Insight[] = budgets.reduce((acc: Insight[], budget: Budget) => {
+              const actualSpending = transactions
+                .filter((tx: Transaction) => tx.category === budget.category)
+                .reduce((sum: number, tx: Transaction) => sum + tx.amount, 0);
               const status = actualSpending > budget.limit ? 'Over Budget' : 'Under Budget';
               acc.push({ category: budget.category, status, actual: actualSpending, limit: budget.limit });
               return acc;
