@@ -1,18 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 💰 Personal Finance Visualizer
 
-## Getting Started
+A full-stack personal finance dashboard built with **Next.js 15**, **MongoDB**, **Tailwind CSS**, `@shadcn/ui`, and **Recharts**. It helps users track and visualize their spending and transactions in a user-friendly interface.
 
-First, run the development server:
+---
+
+## 🛠 Tech Stack
+
+- **Next.js 15**
+- **React 19**
+- **MongoDB (Mongoose)**
+- **Tailwind CSS 4**
+- **@shadcn/ui** (UI components)
+- **Recharts** (for graphs)
+- **TypeScript**
+
+---
+
+## 📦 Installation
 
 ```bash
+git clone https://github.com/yourusername/personal-finance-visualizer.git
+cd personal-finance-visualizer
+npm install
+🌐 Environment Variables
+Create a .env.local file in the root of your project and add:
+
+bash
+Copy
+Edit
+MONGODB_URI=mongodb://localhost:27017/finance-db
+🚀 Running the App
+bash
+Copy
+Edit
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Navigate to http://localhost:3000
+
+📁 File Structure
+bash
+Copy
+Edit
+/app
+  /api
+    transactions.ts        # API Route for CRUD operations
+  /models
+    Transaction.ts         # Mongoose model
+  /lib
+    db.ts                  # MongoDB connection
+  page.tsx                 # UI + form
+📊 Features
+Add, delete, and list transactions.
+
+Filter by category or date (optional).
+
+Visualize expenses using pie and bar charts.
+
+🧠 Future Improvements
+User Authentication
+
+Budget Goals & Alerts
+
+Monthly/Yearly Analytics
+
+🧑‍💻 Author
+Made with ❤️ by Aryaman Gupta
+
+
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
