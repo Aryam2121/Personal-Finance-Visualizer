@@ -5,7 +5,7 @@ import TransactionList from './components/TransactionList';
 import MonthlyBarChart from './components/MonthlyBarChart';
 import SummaryCards from './components/SummaryCards';
 import { ITransaction } from './models/Transaction'; // Import the ITransaction type
-import { formatCurrency, calculateTotal } from './lib/utils';
+import {  calculateTotal } from './lib/utils';
 
 export default function Dashboard() {
   const [transactions, setTransactions] = useState<ITransaction[]>([]); // Use the ITransaction interface here
