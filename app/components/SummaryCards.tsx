@@ -1,34 +1,24 @@
-'use client';
-import { useEffect, useState } from 'react';
+import React from 'react';
 
-export default function SummaryCards() {
-  const [transactions, setTransactions] = useState<{ amount: number; category: string; description: string }[]>([]);
+interface SummaryCardsProps {
+  totalExpenses: number;
+  recentTransactions: { description: string; amount: number }[];
+  categories: Record<string, number>;
+}
 
-  useEffect(() => {
-    fetch('/api/transactions')
-      .then(res => res.json())
-      .then(data => setTransactions(data));
-  }, []);
-
-  const total = transactions.reduce((acc, tx) => acc + tx.amount, 0);
-  const recent = transactions.slice(0, 3);
-  const categories = transactions.reduce((acc: Record<string, number>, tx) => {
-    acc[tx.category] = (acc[tx.category] || 0) + tx.amount;
-    return acc;
-  }, {} as Record<string, number>);
-
+const SummaryCards: React.FC<SummaryCardsProps> = ({ totalExpenses, recentTransactions, categories }) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
       <div className="p-4 bg-white rounded-lg shadow">
         <h3 className="font-semibold">Total Expenses</h3>
-        <p className="text-xl font-bold text-red-500">₹{total.toFixed(2)}</p>
+        <p className="text-xl font-bold text-red-500">₹{totalExpenses.toFixed(2)}</p>
       </div>
       <div className="p-4 bg-white rounded-lg shadow">
         <h3 className="font-semibold">Recent Transactions</h3>
         <ul className="text-sm">
-          {recent.map((tx, idx) => (
+          {recentTransactions.map((tx, idx) => (
             <li key={idx}>
-              {tx.description} - ₹{tx.amount}
+              {tx.description} - ₹{tx.amount.toFixed(2)}
             </li>
           ))}
         </ul>
@@ -45,4 +35,6 @@ export default function SummaryCards() {
       </div>
     </div>
   );
-}
+};
+
+export default SummaryCards;
