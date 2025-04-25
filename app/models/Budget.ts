@@ -1,9 +1,11 @@
+// app/models/Budget.ts
 import mongoose from 'mongoose';
 
 const BudgetSchema = new mongoose.Schema({
-  month: { type: String, required: true },
   category: { type: String, required: true },
-  limit: { type: Number, required: true },
-}, { timestamps: true });
+  amount: { type: Number, required: true },
+  month: { type: String, required: true }, // e.g. "2025-04"
+});
 
-export default mongoose.models.Budget || mongoose.model('Budget', BudgetSchema);
+export default mongoose.models.Budget ||
+  mongoose.model('Budget', BudgetSchema);
