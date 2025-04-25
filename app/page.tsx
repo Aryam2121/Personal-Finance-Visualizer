@@ -27,7 +27,6 @@ export default function Dashboard() {
     fetchTransactions();
   }, []);
 
-  // Modify the handleTransactionSubmit function to map FormState to ITransaction
   interface FormState {
     amount: string;
     date: string;
@@ -77,8 +76,8 @@ export default function Dashboard() {
       <TransactionForm onSubmit={handleTransactionSubmit} />
 
       <SummaryCards
-        totalExpenses={formatCurrency(totalExpenses)}
-        totalTransactions={transactions.length}
+        totalExpenses={totalExpenses}  // Pass the number directly
+        totalTransactions={transactions.length}  // Pass number of transactions
       />
 
       <div className="my-8">
@@ -89,8 +88,8 @@ export default function Dashboard() {
         <p>Loading transactions...</p>
       ) : (
         <TransactionList
-          transactions={transactions}
-          onDelete={handleTransactionDelete}
+          transactions={transactions}  
+          onDelete={handleTransactionDelete} 
         />
       )}
     </div>

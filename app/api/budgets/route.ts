@@ -1,6 +1,6 @@
 // app/api/budgets/route.ts
-import { connectToDatabase } from '../../lib/db';
-import Budget from '../../models/Budget';
+import { connectToDatabase } from '@/app/lib/db';
+import Budget from '@/app/models/Budget';
 import { NextResponse } from 'next/server';
 
 export async function GET() {

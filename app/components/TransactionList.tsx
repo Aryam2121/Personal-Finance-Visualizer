@@ -1,28 +1,20 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { FC } from 'react';
 
-export default function TransactionList() {
-  interface Transaction {
-    _id: string;
-    description: string;
-    amount: number;
-    date: string;
-    category: string;
-  }
+interface Transaction {
+  _id: string;
+  description: string;
+  amount: number;
+  date: string;
+  category: string;
+}
 
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
+interface TransactionListProps {
+  transactions: Transaction[];
+  onDelete: (id: string) => void;
+}
 
-  useEffect(() => {
-    fetch('/api/transactions')
-      .then(res => res.json())
-      .then(data => setTransactions(data));
-  }, []);
-
-  const deleteTransaction = async (id: string) => {
-    await fetch(`/api/transactions?id=${id}`, { method: 'DELETE' });
-    setTransactions(transactions.filter(tx => tx._id !== id));
-  };
-
+const TransactionList: FC<TransactionListProps> = ({ transactions, onDelete }) => {
   return (
     <div className="p-4">
       <h2 className="text-xl font-semibold mb-2">Transactions</h2>
@@ -35,7 +27,7 @@ export default function TransactionList() {
                 ₹{tx.amount} | {new Date(tx.date).toLocaleDateString()} | {tx.category}
               </p>
             </div>
-            <button onClick={() => deleteTransaction(tx._id)} className="text-red-500 hover:underline">
+            <button onClick={() => onDelete(tx._id)} className="text-red-500 hover:underline">
               Delete
             </button>
           </li>
@@ -43,4 +35,6 @@ export default function TransactionList() {
       </ul>
     </div>
   );
-}
+};
+
+export default TransactionList;

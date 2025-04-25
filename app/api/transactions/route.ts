@@ -1,6 +1,6 @@
 // app/api/transactions/route.ts
-import { connectToDatabase } from '../../lib/db';
-import Transaction from '../../models/Transaction';
+import { connectToDatabase } from '@/app/lib/db';
+import Transaction from '@/app/models/Transaction';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
